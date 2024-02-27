@@ -88,17 +88,18 @@ public class WebScraper {
 
 		try {
 			String searchUrl = DEFAULT_URL + "search/sss?sort=rel&query=" + URLEncoder.encode(keyword, "UTF-8");
+			System.out.println("The search URL is: " + searchUrl);
 			HtmlPage page = client.getPage(searchUrl);
 
 			
-			List<?> items = (List<?>) page.getByXPath("//li[@class='result-row']");
+			List<?> items = (List<?>) page.getByXPath("//li[@class='cl-static-search-result']");
 			
 			Vector<Item> result = new Vector<Item>();
 
 			for (int i = 0; i < items.size(); i++) {
 				HtmlElement htmlItem = (HtmlElement) items.get(i);
-				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
-				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
+				HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//a/div/[@class='location']"));
+				HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/div[@class='price']"));
 
 				// It is possible that an item doesn't have any price, we set the price to 0.0
 				// in this case
